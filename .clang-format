@@ -1,7 +1,7 @@
 ---
-BasedOnStyle: LLVM
-IndentWidth: 4
-TabWidth: 4
+BasedOnStyle: Google
+IndentWidth: 2
+TabWidth: 2
 Language: Cpp
 AlignAfterOpenBracket: AlwaysBreak # BlockIndent
 AlignConsecutiveBitFields: true
