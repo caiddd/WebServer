@@ -1,3 +1,6 @@
+/*
+TODO : 使用无锁队列实现线程池中的请求队列
+*/
 #ifndef THREAD_POOL_HPP_
 #define THREAD_POOL_HPP_
 
@@ -23,7 +26,7 @@ class ThreadPool {
   pthread_t *threads_{nullptr};
   std::list<Task *> work_queue_;
 
-  void run();
+  void Run();
   static void *Worker(void *arg);
 };
 
@@ -68,13 +71,13 @@ bool ThreadPool<Task>::Append(Task *request) {
 template<typename Task>
 void *ThreadPool<Task>::Worker(void *arg) {
   auto pool = static_cast<ThreadPool *>(arg);
-  pool->run();
+  pool->Run();
   return pool;
 }
 
 template<typename Task>
-void ThreadPool<Task>::run() {
-  while (stop_) {
+void ThreadPool<Task>::Run() {
+  while (!stop_) {
     queue_stat_.Wait();
     queue_locker_.Lock();
     if (work_queue_.empty()) {
