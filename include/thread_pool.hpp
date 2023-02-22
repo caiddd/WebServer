@@ -38,7 +38,7 @@ ThreadPool<Task>::ThreadPool(int thread_num, int max_request)
   if (!threads_) { throw std::exception(); }
   for (int i = 0; i < thread_num_; ++i) {
     printf("create the %dth thread\n", i);
-    if (pthread_create(threads_ + i, NULL, Worker, this) != 0) {
+    if (pthread_create(threads_ + i, nullptr, Worker, this) != 0) {
       delete[] threads_;
       throw std::exception();
     }
@@ -70,7 +70,7 @@ bool ThreadPool<Task>::Append(Task *request) {
 
 template<typename Task>
 void *ThreadPool<Task>::Worker(void *arg) {
-  auto pool = static_cast<ThreadPool *>(arg);
+  auto *pool = static_cast<ThreadPool *>(arg);
   pool->Run();
   return pool;
 }
@@ -84,11 +84,11 @@ void ThreadPool<Task>::Run() {
       queue_locker_.Unlock();
       continue;
     }
-    auto request = work_queue_.front();
+    auto *request = work_queue_.front();
     work_queue_.pop_front();
     queue_locker_.Unlock();
     if (!request) { continue; }
-    request->process();
+    request->Process();
   }
 }
 
