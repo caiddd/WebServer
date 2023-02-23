@@ -28,9 +28,9 @@ void AddFd(int epollfd, int fd, bool oneshot) {
   SetNonBlocking(fd);
 }
 
-void HttpConn::Init(int sockfd, const sockaddr_in &addr) {
+void HttpConn::Init(int sockfd, const sockaddr_in &kAddr) {
   sockfd_ = sockfd;
-  sock_addr_ = addr;
+  sock_addr_ = kAddr;
   int reuse = 1;
   setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse));
   AddFd(epollfd_, sockfd_, true);

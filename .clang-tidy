@@ -36,8 +36,12 @@ CheckOptions:
     value:           aNy_CasE
   - key:             readability-identifier-naming.ClassConstantCase
     value:           aNy_CasE
+  - key:             readability-identifier-naming.ConstantPrefix
+    value:           'k'
   - key:             readability-identifier-naming.ClassConstantPrefix
     value:           'k'
+  - key:             readability-identifier-naming.ClassConstantSuffix
+    value:           '_'
   - key:             readability-identifier-naming.ClassMemberSuffix
     value:           '_'
   - key:             readability-identifier-naming.EnumCase

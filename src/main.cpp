@@ -20,7 +20,7 @@ int epollfd;
 int listenfd;
 HttpConn *users;
 ThreadPool<HttpConn> *pool;
-epoll_event events[MAX_EVENT_NUMBER];
+epoll_event events[kMaxEventNumber];
 
 void AddSig(int sig, void(handler)(int)) {
   struct sigaction sa;
@@ -38,7 +38,7 @@ void CreateThreadPool() {
     printf("线程池构建错误！\n");
     exit(-1);
   }
-  users = new HttpConn[MAX_FD];
+  users = new HttpConn[kMaxFd];
 }
 
 void CreateServer() {
@@ -62,40 +62,40 @@ void CreateEpoll() {
 void ClientConnect() {
   struct sockaddr_in client_address;
   socklen_t client_addrlen = sizeof(client_address);
-  int const connfd =
+  int const kConnfd =
       accept(listenfd, (sockaddr *)&client_address, &client_addrlen);
-  if (HttpConn::user_count_ >= MAX_FD) {
+  if (HttpConn::user_count_ >= kMaxFd) {
     // TODO : 给客户端发送信息表示服务器正忙
-    close(connfd);
+    close(kConnfd);
     return;
   }
-  users[connfd].Init(connfd, client_address);
+  users[kConnfd].Init(kConnfd, client_address);
 }
 
 void ClientEventDeal(int i) {
   // TODO : 之后解释这几个if判断的情况是什么
-  int const sockfd = events[i].data.fd;
+  int const kSockfd = events[i].data.fd;
   if (events[i].events & (EPOLLRDHUP | EPOLLHUP | EPOLLERR)) {
-    users[sockfd].Close();
+    users[kSockfd].Close();
   } else if (events[i].events & EPOLLIN) {
-    if (users[sockfd].Read()) {
-      pool->Append(users + sockfd);
+    if (users[kSockfd].Read()) {
+      pool->Append(users + kSockfd);
     } else {
-      users[sockfd].Close();
+      users[kSockfd].Close();
     }
   } else if (events[i].events & EPOLLOUT) {
-    if (!users[sockfd].Write()) { users[sockfd].Close(); }
+    if (!users[kSockfd].Write()) { users[kSockfd].Close(); }
   }
 }
 
 void RunServer() {
   while (true) {
-    int const num = epoll_wait(epollfd, events, MAX_EVENT_NUMBER, -1);
-    if (num < 0 and errno != EINTR) {
+    int const kNum = epoll_wait(epollfd, events, kMaxEventNumber, -1);
+    if (kNum < 0 and errno != EINTR) {
       printf("epoll failure\n");
       break;
     }
-    for (int i = 0; i < num; ++i) {
+    for (int i = 0; i < kNum; ++i) {
       if (events[i].data.fd == listenfd) {
         ClientConnect();
       } else {

@@ -25,7 +25,7 @@ class HttpConn {
   static int epollfd_;
   static int user_count_;
   void Process();
-  void Init(int sockfd, const sockaddr_in &addr);
+  void Init(int sockfd, const sockaddr_in &kAddr);
   void Close();
   bool Read();
   bool Write();
