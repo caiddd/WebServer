@@ -93,7 +93,10 @@
         "forward_list": "cpp",
         "executor": "cpp",
         "io_context": "cpp",
-        "netfwd": "cpp"
+        "netfwd": "cpp",
+        "queue": "cpp",
+        "shared_mutex": "cpp",
+        "regex": "cpp"
     },
     "cmake.buildTask": true
 }

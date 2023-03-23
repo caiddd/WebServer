@@ -12,10 +12,10 @@ endif()
 project(my_project_name VERSION 0.0.1 LANGUAGES C CXX)
 
 link_libraries(pthread)
+link_libraries(mysqlclient)
+
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_subdirectory(./src)
-
 add_subdirectory(./test)
-
 add_subdirectory(./example)
