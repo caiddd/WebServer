@@ -1,6 +1,3 @@
-/*
-TODO : 使用无锁队列实现线程池中的请求队列
-*/
 #ifndef THREAD_POOL_HPP_
 #define THREAD_POOL_HPP_
 
